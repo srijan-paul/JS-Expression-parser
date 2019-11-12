@@ -4,7 +4,8 @@ const precedence = {
     '-': 1,
     '*': 2,
     '/': 2,
-    '%': 3
+    '%': 3,
+    '^': 4
 }
 
 function lex(text) {
@@ -13,7 +14,7 @@ function lex(text) {
     tokens = [];
 
     function isOperator(c) {
-        return '-+*/'.includes(c);
+        return '-+*/%^'.includes(c);
     }
 
     function isUnary(c) {
@@ -151,6 +152,10 @@ function eval(node) {
             return eval(node.left) - eval(node.right);
         case '+':
             return eval(node.left) + eval(node.right);
+        case '%':
+            return eval(node.left) % eval(node.right);
+        case '^':
+            return Math.pow(eval(node.left), eval(node.right));
     }
 }
 
